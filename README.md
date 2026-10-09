@@ -28,6 +28,7 @@ Kiểm tra: npm run typecheck; npm test; npm run lint.
 FlashList 1.8.3 hỗ trợ numColumns={2} và estimatedItemSize. React Navigation v7. Haptic: react-native-haptic-feedback 3.0.0. Location: PermissionsAndroid + @react-native-community/geolocation.
 
 Token giả chỉ nằm trong bộ nhớ. Khởi động lại app cần đăng nhập lại. Giỏ persist AsyncStorage với key ktxgo-cart-23715191.
+Login chỉ kiểm tra ô nhập không rỗng sau khi trim, theo đề. Bấm ảnh, tên, giá hoặc khoảng trống trong card mở Detail; nút + chỉ thêm vào giỏ.
 Dữ liệu chính: GET https://fakestoreapi.com/products?limit=12 qua Axios và useProductsQuery; X-Student-Id=23715191; staleTime lấy từ student.ts.
 
 Điểm KTX giả lập cố định: 10.8221, 106.6879. Haversine tính khoảng cách; công thức B: BASE_SHIP_FEE + Math.round(km * 1500) + 2000. Phí trên Tôi và Giỏ dùng chung store.
@@ -53,4 +54,5 @@ Repo công khai: https://github.com/LuongAnhKhoi/23715191_TH2. URL clone HTTPS �
 - GPS emulator dùng 10.8230, 106.6884: khoảng cách khoảng 0,114 km; phí ship 11.171 đ. Hai screenshot Home/Cart chụp lại trong phiên này, thấy TH2 · 23715191 · LUONG ANH KHOI · #353533.
 
 - Câu 3b: typecheck, unit tests và lint đã chạy thành công lúc 18:07:51 9/10/2026.
+- Rà soát Câu 1a/2a lúc 18:59 ngày 09/10/2026: typecheck đạt, 13 test đạt, lint 0 lỗi/7 cảnh báo cũ. Kiểm tra Pixel_6: ô Login trống bị chặn, nhập 123 vào Main; bấm giá/khoảng trống card mở Detail đúng món; nút + giữ Home và tăng giỏ đúng 1. Giỏ được trả về số lượng trước kiểm tra.
 - Android emulator: Hộp thoại Location của Android; denied → xin lại/Mở Cài đặt; denied lần hai → blocked → cài đặt đúng KTXGo; granted → GPS giả lập/Haversine 0,114 km/phí B 11.171 đ đồng bộ Tôi/Giỏ; đăng xuất. Chụp mới 2 ảnh Home/Cart từ project thi..

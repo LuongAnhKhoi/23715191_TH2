@@ -11,8 +11,7 @@ export function LoginScreen() {
   const login = useAuthStore(state => state.login);
   const isPhone = VARIANT.authField === 'phone';
   const submit = () => {
-    const valid = isPhone ? /^\+?[0-9]{9,15}$/.test(value.replace(/\s/g, '')) : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-    if (!valid) {setError(isPhone ? 'Nhập số điện thoại từ 9 đến 15 chữ số.' : 'Nhập email hợp lệ.'); return;}
+    if (!value.trim()) {setError(isPhone ? 'Nhập số điện thoại.' : 'Nhập email.'); return;}
     login();
   };
   return <Screen auth><KeyboardAvoidingView style={styles.grow}
