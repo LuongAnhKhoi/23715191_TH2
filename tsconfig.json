@@ -1,0 +1,38 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@screens/*": [
+        "src/screens/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@stores/*": [
+        "src/stores/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@navigation/*": [
+        "src/navigation/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "ios/Pods"
+  ]
+}
