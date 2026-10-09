@@ -1,17 +1,31 @@
 import { Action } from '@components/Action';
 import { Screen } from '@components/Screen';
-import { formatMoney,productAmount,ROOM_LABEL } from '@constants/student';
+import { formatMoney,productAmount,ROOM_LABEL,STUDENT } from '@constants/student';
 import { theme } from '@constants/theme';
 import type { ShopParamList } from '@navigation/types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { sampleProducts } from '@services/sampleProducts';
 import React,{ useState } from 'react';
-import { Image,ScrollView,StyleSheet,Text,View } from 'react-native';
+import { ActivityIndicator,Image,ScrollView,StyleSheet,Text,View } from 'react-native';
+
+import { networkMessage } from '@services/apiClient';
+import { useProductsQuery } from '@hooks/useProductsQuery';
+
 export function DetailScreen({route}: NativeStackScreenProps<ShopParamList, 'Detail'>) {
   const [imageFailed, setImageFailed] = useState(false);
-  const product = sampleProducts.find(item => item.id === route.params.id);
+  
+const query = useProductsQuery();
+const product = query.data?.find(item => item.id === route.params.id);
+
   
   
+if (query.isPending) return <Screen detail><View style={styles.center}>
+  <ActivityIndicator size="large" color={theme.primary} /><Text style={styles.description}>Đang tải món…</Text>
+</View></Screen>;
+if (query.isError) return <Screen detail><View style={styles.center}>
+  <Text style={styles.description}>{STUDENT.mssv} · {networkMessage(query.error)}</Text>
+  <Action label="Thử lại" onPress={() => {void query.refetch();}} disabled={query.isFetching} />
+</View></Screen>;
+
   if (!product) return <Screen detail><View style={styles.center}>
     <Text style={styles.description}>Không tìm thấy món #{route.params.id}.</Text>
   </View></Screen>;

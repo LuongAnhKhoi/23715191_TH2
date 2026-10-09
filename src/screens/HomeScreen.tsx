@@ -1,3 +1,4 @@
+import { Action } from '@components/Action';
 import { ProductCard } from '@components/ProductCard';
 import { Screen } from '@components/Screen';
 import { BANNER_IMAGE_ID,DEBOUNCE_MS,ROOM_LABEL,STUDENT } from '@constants/student';
@@ -6,14 +7,20 @@ import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import type { ShopParamList } from '@navigation/types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { Product } from '@services/productApi';
-import { sampleProducts } from '@services/sampleProducts';
 import { FlashList } from '@shopify/flash-list';
 import React,{ useState } from 'react';
-import { Image,StyleSheet,Text,TextInput,View } from 'react-native';
+import { ActivityIndicator,Image,StyleSheet,Text,TextInput,View } from 'react-native';
+
+import { networkMessage } from '@services/apiClient';
+import { useProductsQuery } from '@hooks/useProductsQuery';
+
 export function HomeScreen({navigation}: NativeStackScreenProps<ShopParamList, 'Home'>) {
   const [search, setSearch] = useState('');
   const debounced = useDebouncedValue(search, DEBOUNCE_MS);
-  const products = sampleProducts;
+  
+const query = useProductsQuery();
+const products = query.data ?? [];
+
   
   const visible = products.filter(item => item.title.toLocaleLowerCase().includes(debounced.trim().toLocaleLowerCase()));
   return <Screen>
@@ -23,14 +30,22 @@ export function HomeScreen({navigation}: NativeStackScreenProps<ShopParamList, '
       placeholder="Tìm món, đồ uống, đồ dùng…" placeholderTextColor={theme.textLight}
       value={search} onChangeText={setSearch} style={styles.search} /></View>
     
+{query.isPending ? <View style={styles.center}><ActivityIndicator size="large" color={theme.primary} />
+  <Text style={styles.message}>Đang tải món…</Text></View>
+ : query.isError ? <View style={styles.center}>
+   <Text style={styles.error}>{STUDENT.mssv}</Text>
+   <Text accessibilityRole="alert" style={styles.message}>{networkMessage(query.error)}</Text>
+   <Action label="Thử lại" onPress={() => {void query.refetch();}} disabled={query.isFetching} />
+ </View> : 
 <FlashList<Product> testID="product-list" data={visible} numColumns={2} estimatedItemSize={252}
   keyExtractor={item => STUDENT.mssv + '-' + item.id} contentContainerStyle={styles.list}
-  keyboardShouldPersistTaps="handled" 
+  keyboardShouldPersistTaps="handled" refreshing={query.isRefetching} onRefresh={() => {void query.refetch();}}
   ListHeaderComponent={<Image source={{uri: 'https://picsum.photos/id/' + BANNER_IMAGE_ID + '/800/240'}}
     style={styles.banner} resizeMode="cover" accessibilityLabel="Giao tận phòng ký túc xá" />}
   ListEmptyComponent={<Text style={styles.empty}>Không có món phù hợp.</Text>}
   renderItem={({item}) => <ProductCard product={item}
     onOpen={() => navigation.navigate('Detail', {id: item.id})}  />} />
+}
 
   </Screen>;
 }
