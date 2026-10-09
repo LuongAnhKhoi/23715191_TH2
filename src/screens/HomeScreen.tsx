@@ -30,7 +30,7 @@ const products = query.data ?? [];
     <View style={styles.header}><Text style={styles.logo}>KTXGO</Text>
       <Text style={styles.delivery}>Giao tận {ROOM_LABEL}</Text></View>
     <View style={styles.searchWrap}><TextInput testID="search-input" accessibilityLabel="Tìm món"
-      placeholder="Tìm món, đồ uống, đồ dùng…" placeholderTextColor={theme.textLight}
+      placeholder={'Tìm món (debounce) — ' + STUDENT.mssv} placeholderTextColor={theme.textLight}
       value={search} onChangeText={setSearch} style={styles.search} /></View>
     
 {query.isPending ? <View style={styles.center}><ActivityIndicator size="large" color={theme.primary} />
