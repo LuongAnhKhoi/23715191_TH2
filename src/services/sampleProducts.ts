@@ -1,5 +1,5 @@
 import type { Product } from '@services/productApi';
-// Local fixtures are used ONLY by M03. M04+ reads the exam's live API.
+// Local fixtures are used ONLY by Câu 2a. Câu 2b+ reads the exam's live API.
 export const sampleProducts: Product[] = [
   {id: '1', title: 'Cơm nắm rong biển', price: 1, description: 'Món nhanh giao tận phòng.', image: 'https://picsum.photos/id/292/400/300'},
   {id: '2', title: 'Trà sữa', price: 1.2, description: 'Đồ uống mát giao nội khu.', image: 'https://picsum.photos/id/225/400/300'},

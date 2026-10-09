@@ -1,3 +1,3 @@
-// Axios is connected at checkpoint M04.
+// Axios is connected at checkpoint Câu 2b.
 export { };
 

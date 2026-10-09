@@ -1,1 +1,1 @@
-export function hapticOnAdd() {} // Connected at M05.
+export function hapticOnAdd() {} // Connected at Câu 3a.
