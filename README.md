@@ -17,11 +17,27 @@ Project React Native CLI + TypeScript của LUONG ANH KHOI. Mốc tích lũy the
 
 Node >=20.19.4, JDK 17, Android SDK API 36, Build Tools 36.0.0, NDK 27.1.12297006.
 
-1. npm ci
-2. Cấu hình ANDROID_HOME hoặc android/local.properties theo máy.
-3. Mở emulator.
-4. npm start
-5. Trong terminal khác: npm run android.
+Mở terminal trong thư mục project, cài dependencies:
+
+```powershell
+npm ci
+```
+
+Cấu hình ANDROID_HOME hoặc android/local.properties theo máy và mở emulator.
+
+Terminal 1 — chạy Metro và giữ cửa sổ này mở:
+
+```powershell
+npm start
+```
+
+Terminal 2 — mở trong cùng thư mục project, cài và chạy ứng dụng Android:
+
+```powershell
+npm run android
+```
+
+Nếu Metro của chính project đã chạy trên cổng 8081, dùng cửa sổ đó và chạy `npm run android` ở terminal khác; không cần mở thêm Metro.
 
 Kiểm tra: npm run typecheck; npm test; npm run lint.
 
