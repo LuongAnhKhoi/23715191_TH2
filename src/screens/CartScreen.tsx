@@ -1,16 +1,16 @@
 import { Screen } from '@components/Screen';
-import { formatMoney,productAmount,ROOM_LABEL,STUDENT } from '@constants/student';
+import { formatMoney,productAmount,ROOM_LABEL,STUDENT,VARIANT } from '@constants/student';
 import { theme } from '@constants/theme';
+import { useCampusLocationStore } from '@hooks/useCampusLocation';
 import { useCartStore } from '@stores/cartStore';
 import React from 'react';
 import { FlatList,Pressable,StyleSheet,Text,View } from 'react-native';
-
 export function CartScreen() {
   const items = useCartStore(state => state.items);
   const changeQty = useCartStore(state => state.changeQty);
   const remove = useCartStore(state => state.removeItem);
   const amount = items.reduce((sum, row) => sum + productAmount(row.product.price) * row.qty, 0);
-  
+  const fee = useCampusLocationStore(state => state.fee);
   return <Screen><View style={styles.header}><Text style={styles.headerText}>GIỎ HÀNG</Text></View>
     <FlatList data={items} keyExtractor={item => STUDENT.mssv + '-' + item.product.id} contentContainerStyle={styles.list}
       ListEmptyComponent={<View style={styles.empty}><Text style={styles.text}>Giỏ hàng đang trống.</Text>
@@ -32,8 +32,11 @@ export function CartScreen() {
       ListFooterComponent={<View style={styles.summary}>
         <Text style={styles.text}>Giao đến {ROOM_LABEL}</Text>
         
+{fee !== null ? <Text style={styles.ship}>Phí ship: {formatMoney(fee)} (công thức {VARIANT.shipFormula})</Text>
+  : <Text style={styles.muted}>Chưa ước tính phí — mở tab Tôi</Text>}
+
         <Text style={styles.total}>Tổng hàng: {formatMoney(amount)}</Text>
-        
+        {fee !== null && items.length > 0 && <Text style={styles.total}>Dự kiến: {formatMoney(amount + fee)}</Text>}
       </View>} />
   </Screen>;
 }
