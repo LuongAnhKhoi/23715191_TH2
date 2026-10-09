@@ -67,7 +67,8 @@ Repo công khai: https://github.com/LuongAnhKhoi/23715191_TH2. URL clone HTTPS �
 - Câu 2a/2b: lưới 2 cột, tìm kiếm/debounce, API thật, tắt mạng → lỗi có MSSV, bật mạng/Thử lại, Detail khớp món và kéo refresh.
 - Câu 3a: Home + Detail thêm cùng món (SL=2), Alert có MSSV, tăng/giảm, badge/tổng tiền, kill/relaunch còn giỏ và xóa món. Haptic selection được unit test và gọi khi thao tác thêm trên emulator; không đo rung trên điện thoại thật.
 - Câu 3b: hộp thoại Location của Android, denied, blocked, mở đúng trang cài đặt KTXGo, granted, Haversine/ship B đồng bộ Tôi–Giỏ và đăng xuất.
-- GPS emulator dùng 10.8230, 106.6884: khoảng cách khoảng 0,114 km; phí ship 11.171 đ. Hai screenshot Home/Cart chụp lại trong phiên này, thấy TH2 · 23715191 · LUONG ANH KHOI · #353533.
+- Kiểm chứng GPS trước đó dùng 10.8230, 106.6884: khoảng cách khoảng 0,114 km; phí ship 11.171 đ.
+- Hai screenshot Home/Cart được chụp lại từ bản app mới nhất lúc 19:15–19:16 ngày 09/10/2026. Home ở đầu danh sách; Giỏ có một món, phí ship 55.135 đ đồng bộ với Tôi theo vị trí hiện tại (khoảng 29,42 km). Cả hai ảnh đọc được TH2 · 23715191 · LUONG ANH KHOI · #353533.
 
 - Câu 3b: typecheck, unit tests và lint đã chạy thành công lúc 18:07:51 9/10/2026.
 - Rà soát Câu 1a/2a lúc 18:59 ngày 09/10/2026: typecheck đạt, 13 test đạt, lint 0 lỗi/7 cảnh báo cũ. Kiểm tra Pixel_6: ô Login trống bị chặn, nhập 123 vào Main; bấm giá/khoảng trống card mở Detail đúng món; nút + giữ Home và tăng giỏ đúng 1. Giỏ được trả về số lượng trước kiểm tra.
