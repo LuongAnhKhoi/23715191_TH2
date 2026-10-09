@@ -5,10 +5,13 @@ import { theme } from '@constants/theme';
 import type { ShopParamList } from '@navigation/types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React,{ useState } from 'react';
-import { ActivityIndicator,Image,ScrollView,StyleSheet,Text,View } from 'react-native';
+import { ActivityIndicator,Alert,Image,ScrollView,StyleSheet,Text,View } from 'react-native';
 
 import { networkMessage } from '@services/apiClient';
 import { useProductsQuery } from '@hooks/useProductsQuery';
+
+import { hapticOnAdd } from '@services/haptic';
+import { useCartStore } from '@stores/cartStore';
 
 export function DetailScreen({route}: NativeStackScreenProps<ShopParamList, 'Detail'>) {
   const [imageFailed, setImageFailed] = useState(false);
@@ -16,7 +19,7 @@ export function DetailScreen({route}: NativeStackScreenProps<ShopParamList, 'Det
 const query = useProductsQuery();
 const product = query.data?.find(item => item.id === route.params.id);
 
-  
+  const add = useCartStore(state => state.addItem);
   
 if (query.isPending) return <Screen detail><View style={styles.center}>
   <ActivityIndicator size="large" color={theme.primary} /><Text style={styles.description}>Đang tải món…</Text>
@@ -36,7 +39,9 @@ if (query.isError) return <Screen detail><View style={styles.center}>
     <Text style={styles.price}>{formatMoney(productAmount(product.price))}</Text>
     <Text style={styles.room}>Giao tận {ROOM_LABEL}</Text>
     <Text numberOfLines={3} style={styles.description}>{product.description}</Text>
-    <Action label="Thêm vào giỏ" disabled onPress={() => {}} />
+    <Action label="Thêm vào giỏ" 
+onPress={() => {add(product); hapticOnAdd(); Alert.alert('Đã thêm vào giỏ', STUDENT.mssv + ' · ' + product.title);}}
+ />
   </ScrollView></Screen>;
 }
 const styles = StyleSheet.create({

@@ -14,6 +14,9 @@ import { ActivityIndicator,Image,StyleSheet,Text,TextInput,View } from 'react-na
 import { networkMessage } from '@services/apiClient';
 import { useProductsQuery } from '@hooks/useProductsQuery';
 
+import { hapticOnAdd } from '@services/haptic';
+import { useCartStore } from '@stores/cartStore';
+
 export function HomeScreen({navigation}: NativeStackScreenProps<ShopParamList, 'Home'>) {
   const [search, setSearch] = useState('');
   const debounced = useDebouncedValue(search, DEBOUNCE_MS);
@@ -21,7 +24,7 @@ export function HomeScreen({navigation}: NativeStackScreenProps<ShopParamList, '
 const query = useProductsQuery();
 const products = query.data ?? [];
 
-  
+  const add = useCartStore(state => state.addItem);
   const visible = products.filter(item => item.title.toLocaleLowerCase().includes(debounced.trim().toLocaleLowerCase()));
   return <Screen>
     <View style={styles.header}><Text style={styles.logo}>KTXGO</Text>
@@ -44,7 +47,7 @@ const products = query.data ?? [];
     style={styles.banner} resizeMode="cover" accessibilityLabel="Giao tận phòng ký túc xá" />}
   ListEmptyComponent={<Text style={styles.empty}>Không có món phù hợp.</Text>}
   renderItem={({item}) => <ProductCard product={item}
-    onOpen={() => navigation.navigate('Detail', {id: item.id})}  />} />
+    onOpen={() => navigation.navigate('Detail', {id: item.id})} onAdd={() => {add(item); hapticOnAdd();}} />} />
 }
 
   </Screen>;

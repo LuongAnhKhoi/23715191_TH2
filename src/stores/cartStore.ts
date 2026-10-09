@@ -1,3 +1,7 @@
+import { STUDENT } from '@constants/student';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createJSONStorage,persist } from 'zustand/middleware';
+
 import { productAmount } from '@constants/student';
 import type { Product } from '@services/productApi';
 import { create } from 'zustand';
@@ -10,7 +14,7 @@ interface CartState {
   totalQuantity: () => number;
   totalAmount: () => number;
 }
-export const useCartStore = create<CartState>((set, get) => ({
+export const useCartStore = create<CartState>()(persist((set, get) => ({
   items: [],
   addItem: product => set(state => ({items: state.items.some(row => row.product.id === product.id)
     ? state.items.map(row => row.product.id === product.id ? {...row, qty: row.qty + 1} : row)
@@ -24,5 +28,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
   totalQuantity: () => get().items.reduce((sum, row) => sum + row.qty, 0),
   totalAmount: () => get().items.reduce((sum, row) => sum + productAmount(row.product.price) * row.qty, 0),
-}));
+
+}), {name: 'ktxgo-cart-' + STUDENT.mssv, storage: createJSONStorage(() => AsyncStorage),
+  partialize: state => ({items: state.items})}));
 
